@@ -16,7 +16,7 @@
             display:block;
         }
     </style>
-    <title>Hello, world!</title>
+    <title><%= author.displayname %> | twitter</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,10 +31,19 @@
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
           </ul>
-          <form class="d-flex">
-          <input type="email" class="form-control me-2 " placeholder="Email address" required autofocus style=" width: 150px;">
-          <input type="password" class="form-control me-2 " placeholder="Password" required style=" width: 150px;">
-          <button class="btn btn-primary my-2 my-sm-0 " type="submit"  >Login</button>
+          <% if (currentUser==undefined) { %>
+            <form class="d-flex" method="POST" action='/users/login'>
+            <input type="email" class="form-control me-2 " placeholder="Email address" required autofocus style=" width: 150px;" name='username'>
+            <input type="password" class="form-control me-2 " placeholder="Password" required style=" width: 150px;" name='password'>
+            <button class="btn btn-primary my-2 my-sm-0 " type="submit"  >Login</button>
+            </form>
+          <% console.log(currentUser);} else { %>
+            <form method="get" action='/users/logout' class="d-flex">
+            <p class="me-3 my-0 pt-2"><%= currentUser.displayname %></p>
+            <button class="btn btn-success my-2 my-sm-0 " type="submit"  >Logout</button>
+            </form>
+          <% } %>
+         
           </form>
         </div>
       </div>
@@ -43,11 +52,12 @@
         <div class="container">
             <div class="card w-sm-25 mt-3">
                 <div class="card-body">
-                  <h5 class="card-title mb-0 font-weight-normal h3">What's on your mind?
+                  <h5 class="card-title mb-0 font-weight-normal h3"><i class="pe-2 far fa-user fa-xs " style="color: rgb(29, 161, 242);"></i><%= author.displayname %> 
+                    <span class="fw-light h5">@<%= author.username.split('@')[0] %></span>
                   </h5>
                   <form>
                     <div class="form-group mt-0">
-                        ​<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        ​<p class="card-text"> <%= text %>   </p>
                         <a href="/" class="btn btn-primary mt-2">Go Back</a>
                         <br>
                         
@@ -58,13 +68,13 @@
               <p class="h4 mt-5 font-weight-bold">Comments</p>
         </div>
      
-        <% for (var i = 0; i < 10; i++)  { %>
+        <% for (var i =  comments.length-1; i>=0; i--)  { %>
         <div class="container">
             <div class="card w-sm-25 border-0 ">
                 <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">Special title treatment</h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                      <h5 class="card-title"><i class="pe-2 far fa-user fa-xs " style="color: rgb(29, 161, 242);"></i><%=comments[i].author.displayname %> <span class="fw-light h6">@<%=comments[i].author.username.split('@')[0] %></span></h5>
+                      <p class="card-text"><%=comments[i].text %></p>
                     
                     </div>
                   </div>

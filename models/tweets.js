@@ -6,12 +6,19 @@ const tweet = new Schema({
     comments:[
         {
             type:Schema.Types.ObjectId,
-            ref:'Comment'
+            ref:'Comment',
+            unique:true
         }],
     author:{
         type:Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+    likes:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:'User', 
+            unque:true
+        }],
     
 })
 

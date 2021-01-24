@@ -7,7 +7,7 @@ const mdbstore = require('connect-mongo')(session);
 
 
 const store = new mdbstore({
-  url:'mongodb+srv://vt1138b:OX5lPN1aZDjLdhgJ@cluster0.faeij.mongodb.net/<dbname>?retryWrites=true&w=majority',
+  url:'mongodb+srv://vt1138b:OX5lPN1aZDjLdhgJ@cluster0.faeij.mongodb.net/twitterclone?retryWrites=true&w=majority',
   secret:"BestSecretEver#1234",
   touchAfter:24*3600
 })
@@ -46,7 +46,7 @@ passport.serializeUser(user.serializeUser())
 passport.deserializeUser(user.deserializeUser())
 
 
-mongoose.connect('mongodb+srv://vt1138b:OX5lPN1aZDjLdhgJ@cluster0.faeij.mongodb.net/<dbname>?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb+srv://vt1138b:OX5lPN1aZDjLdhgJ@cluster0.faeij.mongodb.net/twitterclone?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(()=>{
   console.log("connected");
 })
@@ -58,29 +58,35 @@ const db = mongoose.connection;
 
 
 app.use((req,res,next)=>{
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next()
 })
-app.get('/',(req, res)=>{
+app.get('/tw',(req,res)=>{
+  console.log(req.params.id)
+})
+app.get('/',async(req, res)=>{
+ 
+  const tweets = await tweet.find({})
+  for(i=0;i<tweets.length;i++){
+    const username = await user.findById(tweets[i].author)
+    tweets[i].displayname=username.displayname
+    tweets[i].handle = username.username.split('@')[0]
+  }
+
   if( req.isAuthenticated())
-  res.render('landing',{auth:true,name:req.user.displayname}) 
+  res.render('landing',{tweets:tweets,auth:true,name:req.user.displayname}) 
   else{
-    res.render('landing',{auth:false,name:false})
+    res.render('landing',{tweets:tweets,auth:false,name:false})
   }
 })
-app.get('/tweet/:id',(req, res)=>{
-  res.render('comments') 
-})
-app.get('/user1',async(req, res)=>{
- const user1 = new user({username:"vishnutejab99@gmail.com",displayname:"Vishnu Teja Bandi"})
-  const newuser = await user.register(user1,'password');
-  res.send(newuser);
-})
+
 var userRoute = require('./routes/users')
 app.use('/users',userRoute)
+var tweetRoute = require('./routes/tweets')
+app.use('/tweets',tweetRoute)
 
-
-app.listen(process.env.PORT||8080,()=>{
+app.listen(process.env.PORT||3000,()=>{
     console.log('Listening')
 })

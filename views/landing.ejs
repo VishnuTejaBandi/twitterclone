@@ -19,7 +19,7 @@
     </style>
     <title>Tweets <% if (name) { %>
       <%= '@'+name %>
-    <% } %> </title>
+    <% } %> | Home</title>
   </head>
   <body>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -45,8 +45,8 @@
               <button class="btn btn-primary my-2 my-sm-0 " type="submit"  >Login</button>
               </form>
             <% } else { %>
-              <form form method="get" action='/users/logout'class="d-flex">
-              <p class="me-3 my-0 pt-2"><%= name %> </i></p>
+              <form method="get" action='/users/logout' class="d-flex">
+              <p class="me-3 my-0 pt-2"><%= name %></p>
               <button class="btn btn-success my-2 my-sm-0 " type="submit"  >Logout</button>
               </form>
             <% } %>
@@ -61,17 +61,18 @@
                 <div class="card-body">
                   <h5 class="card-title mb-0">What's on your mind?
                   </h5>
-                  <form>
+                  <form action="/tweets" method="POST">
                     <div class="form-group mt-0">
-                        ​<textarea maxlength="280" class="form-control mt-0" id="txtArea1" rows="4" cols="70"></textarea>
+                        ​<textarea maxlength="280" class="form-control mt-0" id="txtArea1" rows="4" cols="70" name="tweet"></textarea>
                         <button class="btn btn btn-primary mt-2 " type="submit"  >tweet</button>
                     </div>
                   </form>
+                  
                 </div>
               </div>
         </div>
     
-        <% for (var i = 0; i < 10; i++)  { %>
+        <% for (var i = tweets.length-1; i >=0; i--)  { %>
         <% var comment= 'comment-'+i %>
         <% var commenttext = 'comment-text'+i %>
         <% var commentsubmit = 'comment-submit'+i %>
@@ -79,13 +80,16 @@
             <div class="card w-sm-25 mt-3">
                 <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">Special title treatment</h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <form>
+                      <p class="card-title"><h5 class="d-inline"><i class="pe-2 far fa-user fa-xs " style="color: rgb(29, 161, 242);"></i><%= tweets[i].displayname %> </h5> <span  class="mt-0 fw-light"  >@<%= tweets[i].handle %> <span  style="float: inline-end;"><a  href="/tweets/<%=tweets[i].id  %> ">View</a></span> </span></p>
+
+                      <p class="card-text"><span class="px-20"><%=tweets[i].text%></span></p> 
                         <div class="form-group mt-0">
-                            ​<textarea maxlength="280" class="form-control  hide" id="<%=commenttext %>" rows="4" cols="70"></textarea>
-                            <input type="button" class="btn btn-primary" name="answer" id="<%=comment %>" value="Comment"  />
-                            <button class="btn btn-success " type="submit" id="<%=commentsubmit %>" style="display:none;">comment</button>
+                          <form action="/tweets/<%=tweets[i].id %>/comments" method="POST">
+                            ​ <textarea maxlength="280" class="form-control  hide" id="<%=commenttext %>" rows="4" cols="70" name="commenttext"></textarea>
+                             <input type="button" class="btn btn-primary" name="answer" id="<%=comment %>" value="Comment"  />
+                              <button class="btn btn-success" type="submit" name ="<%=commentsubmit %>" id="<%=commentsubmit %>" style="display:none;">comment</button>
+                           </form>
+                         
                             <script>var bt = document.getElementById("<%=comment %>");
                                 bt.addEventListener('click',function(){
                                     if ( document.getElementById('<%=comment %>').value == 'cancel') {
@@ -102,7 +106,7 @@
                             })
                             </script>
                         </div>
-                      </form>
+
                     </div>
                   </div>
             </div>
@@ -111,6 +115,6 @@
         
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-
-      </body>
+      </div>
+    </body>
 </html>
