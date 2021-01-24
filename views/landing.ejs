@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <script src="https://kit.fontawesome.com/4da5c3c1b5.js" crossorigin="anonymous"></script>
+    <style>
+        .hide{
+            display:none;
+        }
+        .show{
+            display:block;
+        }
+    </style>
+    <title>Tweets <% if (name) { %>
+      <%= '@'+name %>
+    <% } %> </title>
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <p class=" mb-0  navbar-brand" href="#"><i class=" fab fa-twitter " style="color: rgb(29, 161, 242);" ></i></p>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/users/register">register</a>
+              </li>
+            </ul>
+            
+            <% if (auth == false) { %>
+              <form class="d-flex" method="POST" action='/users/login'>
+              <input type="email" class="form-control me-2 " placeholder="Email address" required autofocus style=" width: 150px;" name='username'>
+              <input type="password" class="form-control me-2 " placeholder="Password" required style=" width: 150px;" name='password'>
+              <button class="btn btn-primary my-2 my-sm-0 " type="submit"  >Login</button>
+              </form>
+            <% } else { %>
+              <form form method="get" action='/users/logout'class="d-flex">
+              <p class="me-3 my-0 pt-2"><%= name %> </i></p>
+              <button class="btn btn-success my-2 my-sm-0 " type="submit"  >Logout</button>
+              </form>
+            <% } %>
+           
+          </div>
+        </div>
+      </nav>
+     <%- include('../partials/flash') %> 
+      <div>
+        <div class="container">
+            <div class="card w-sm-25 mt-3">
+                <div class="card-body">
+                  <h5 class="card-title mb-0">What's on your mind?
+                  </h5>
+                  <form>
+                    <div class="form-group mt-0">
+                        ​<textarea maxlength="280" class="form-control mt-0" id="txtArea1" rows="4" cols="70"></textarea>
+                        <button class="btn btn btn-primary mt-2 " type="submit"  >tweet</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+        </div>
+    
+        <% for (var i = 0; i < 10; i++)  { %>
+        <% var comment= 'comment-'+i %>
+        <% var commenttext = 'comment-text'+i %>
+        <% var commentsubmit = 'comment-submit'+i %>
+        <div class="container">
+            <div class="card w-sm-25 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Special title treatment</h5>
+                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                      <form>
+                        <div class="form-group mt-0">
+                            ​<textarea maxlength="280" class="form-control  hide" id="<%=commenttext %>" rows="4" cols="70"></textarea>
+                            <input type="button" class="btn btn-primary" name="answer" id="<%=comment %>" value="Comment"  />
+                            <button class="btn btn-success " type="submit" id="<%=commentsubmit %>" style="display:none;">comment</button>
+                            <script>var bt = document.getElementById("<%=comment %>");
+                                bt.addEventListener('click',function(){
+                                    if ( document.getElementById('<%=comment %>').value == 'cancel') {
+                                        document.getElementById('<%=commenttext %>').className="form-control mb-2 mt-0 hide";
+                                        document.getElementById('<%=comment %>').value="comment";
+                                        document.getElementById('<%=comment %>').className="btn btn-primary"
+                                        document.getElementById('<%=commentsubmit %>').style.display="none";
+                                    } else {
+                                        document.getElementById('<%=comment %>').value="cancel";
+                                        document.getElementById('<%=comment %>').className="btn btn-danger"
+                                         document.getElementById('<%=commenttext %>').className="form-control mb-2 mt-0 show";
+                                         document.getElementById('<%=commentsubmit %>').style.display="inline";
+                                    }
+                            })
+                            </script>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <% } %>
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+      </body>
+</html>

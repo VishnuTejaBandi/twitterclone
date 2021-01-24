@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/4da5c3c1b5.js" crossorigin="anonymous"></script>
+    <style>
+        .hide{
+            display:none;
+        }
+        .show{
+            display:block;
+        }
+    </style>
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <p class=" mb-0  navbar-brand" href="#"><i class=" fab fa-twitter " style="color: rgb(29, 161, 242);" ></i></p>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+          <input type="email" class="form-control me-2 " placeholder="Email address" required autofocus style=" width: 150px;">
+          <input type="password" class="form-control me-2 " placeholder="Password" required style=" width: 150px;">
+          <button class="btn btn-primary my-2 my-sm-0 " type="submit"  >Login</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+      <div>
+        <div class="container">
+            <div class="card w-sm-25 mt-3">
+                <div class="card-body">
+                  <h5 class="card-title mb-0 font-weight-normal h3">What's on your mind?
+                  </h5>
+                  <form>
+                    <div class="form-group mt-0">
+                        ​<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <a href="/" class="btn btn-primary mt-2">Go Back</a>
+                        <br>
+                        
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <p class="h4 mt-5 font-weight-bold">Comments</p>
+        </div>
+     
+        <% for (var i = 0; i < 10; i++)  { %>
+        <div class="container">
+            <div class="card w-sm-25 border-0 ">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Special title treatment</h5>
+                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <% } %>
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+  </body>
+</html>
