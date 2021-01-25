@@ -1,5 +1,6 @@
 
 const router = require('express').Router()
+const mongoose = require('mongoose')
 const passport = require('passport')
 const user = require('../models/users.js')
 const Tweet = require('../models/tweets.js')
@@ -22,6 +23,21 @@ router.get('/:id',async(req,res)=>{
     console.log(tweet.comments)
     res.render('../views/comments',{comments:tweet.comments,author:username,text:tweet.text})
 
+ })
+ router.post('/:id',isLoggedIn,async(req,res)=>{
+    userid = mongoose.Types.ObjectId(req.user.id)
+    tweetid = mongoose.Types.ObjectId(req.params.id)
+    var tweet = await Tweet.findOne({_id:tweetid,likes:userid});
+    if (tweet==null){
+        tweet = await Tweet.findOne({_id:tweetid})
+        tweet.likes.push(req.user.id);
+        tweet.save()
+    }
+    else{
+        tweet.likes.remove(userid);
+        tweet.save()
+    }
+    res.redirect('/')
  })
 router.post('/:id/comments',isLoggedIn,async(req,res)=>{
     const tweet = await Tweet.findById(req.params.id)

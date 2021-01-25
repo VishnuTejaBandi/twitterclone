@@ -67,17 +67,27 @@ app.get('/tw',(req,res)=>{
   console.log(req.params.id)
 })
 app.get('/',async(req, res)=>{
- 
-  const tweets = await tweet.find({})
-  for(i=0;i<tweets.length;i++){
-    const username = await user.findById(tweets[i].author)
-    tweets[i].displayname=username.displayname
-    tweets[i].handle = username.username.split('@')[0]
-  }
-
-  if( req.isAuthenticated())
-  res.render('landing',{tweets:tweets,auth:true,name:req.user.displayname}) 
+  if( req.isAuthenticated()){
+    userid = mongoose.Types.ObjectId(req.user.id)
+    const tweets = await tweet.find({})
+    for(i=0;i<tweets.length;i++){
+      const username = await user.findById(tweets[i].author)
+      if(tweets[i].likes.includes(userid))
+      tweets[i].likecolor='rgb(29, 161, 242)'
+      else
+      tweets[i].likecolor='black';
+      tweets[i].displayname=username.displayname
+      tweets[i].handle = username.username.split('@')[0]
+    }
+  res.render('landing',{tweets:tweets,auth:true,name:req.user.displayname}) }
   else{
+    const tweets = await tweet.find({})
+    for(i=0;i<tweets.length;i++){
+      const username = await user.findById(tweets[i].author)
+      tweets[i].displayname=username.displayname
+      tweets[i].likecolor='black';
+      tweets[i].handle = username.username.split('@')[0]
+    }
     res.render('landing',{tweets:tweets,auth:false,name:false})
   }
 })
@@ -85,6 +95,7 @@ app.get('/',async(req, res)=>{
 var userRoute = require('./routes/users')
 app.use('/users',userRoute)
 var tweetRoute = require('./routes/tweets')
+const { find } = require('./models/tweets.js')
 app.use('/tweets',tweetRoute)
 
 app.listen(process.env.PORT||3000,()=>{

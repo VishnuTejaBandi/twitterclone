@@ -17,6 +17,29 @@
             display:block;
         }
     </style>
+    <script>
+        function changecolor(id){
+        
+          var li = document.getElementById(id);
+          var path = li.dataset.path;
+            var form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/tweets/'+path);
+            form.style.display = 'hidden';
+            var RPWD = document.createElement("input"); 
+            RPWD.setAttribute("type", "text"); 
+            RPWD.setAttribute("name", "like"); 
+            var like = 1;
+            if(li.style.color=='rgb(29, 161, 242)') like=-1;
+            RPWD.setAttribute("value", like); 
+            RPWD.style.display = 'hidden';
+            document.body.appendChild(form)
+            form.appendChild(RPWD);
+            form.submit();
+          
+          }
+       
+    </script>
     <title>Tweets <% if (name) { %>
       <%= '@'+name %>
     <% } %> | Home</title>
@@ -76,6 +99,7 @@
         <% var comment= 'comment-'+i %>
         <% var commenttext = 'comment-text'+i %>
         <% var commentsubmit = 'comment-submit'+i %>
+
         <div class="container">
             <div class="card w-sm-25 mt-3">
                 <div class="card">
@@ -86,11 +110,16 @@
                         <div class="form-group mt-0">
                           <form action="/tweets/<%=tweets[i].id %>/comments" method="POST">
                             ​ <textarea maxlength="280" class="form-control  hide" id="<%=commenttext %>" rows="4" cols="70" name="commenttext"></textarea>
-                             <input type="button" class="btn btn-primary" name="answer" id="<%=comment %>" value="Comment"  />
+                             <a class="likeicon" style="cursor: pointer;" >
+                              <i class="fa fa-thumbs-o-up" id="likeicon<%=i%>" data-path ="<%=tweets[i].id%>"  style="color:<%=tweets[i].likecolor%>"  onclick="changecolor(this.id)"  aria-hidden="true"  > <%=tweets[i].likes.length%> </i></a>
+                            <input type="button" class="btn btn-primary" name="answer" id="<%=comment %>" value="Comment"  />
                               <button class="btn btn-success" type="submit" name ="<%=commentsubmit %>" id="<%=commentsubmit %>" style="display:none;">comment</button>
                            </form>
+                           
+                            ​
+                            <script>
                          
-                            <script>var bt = document.getElementById("<%=comment %>");
+                            var bt = document.getElementById("<%=comment %>");
                                 bt.addEventListener('click',function(){
                                     if ( document.getElementById('<%=comment %>').value == 'cancel') {
                                         document.getElementById('<%=commenttext %>').className="form-control mb-2 mt-0 hide";

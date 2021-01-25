@@ -7,7 +7,6 @@ const tweet = new Schema({
         {
             type:Schema.Types.ObjectId,
             ref:'Comment',
-            unique:true
         }],
     author:{
         type:Schema.Types.ObjectId,
@@ -17,7 +16,6 @@ const tweet = new Schema({
         {
             type:Schema.Types.ObjectId,
             ref:'User', 
-            unque:true
         }],
     
 })
